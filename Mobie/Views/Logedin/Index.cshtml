@@ -1,0 +1,138 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@{ Layout = ViewBag.Layout; }
+
+@model IEnumerable<ProductViewModel>
+
+@{
+    ViewData["Title"] = "UserHome Page";
+    string imagePath = string.Empty;
+}
+
+
+<div class="container mt-3">
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-controller="Logedin" asp-action="SearchByCategory" method="get">
+                <label class="form-label">Category</label>
+                <div class="input-group mb-3">
+                    <select asp-items="@(new SelectList(ViewBag.Category,"Id","Name"))" class="form-select" name="cid">
+                        <option value="">All Categories</option>
+                    </select>
+                    <button class="btn btn-primary" type="submit">Filter</button>
+                </div>
+            </form>
+        </div>
+        <div class="col-md-2">
+            <form asp-controller="Logedin" asp-action="SearchByRam" method="get">
+                <label class="form-label">RAM</label>
+                <div class="input-group mb-3">
+                    <select name="ram" class="form-select">
+                        <option value="">All RAM Sizes</option>
+                        <option value="4">4 GB</option>
+                        <option value="8">8 GB</option>
+                        <option value="12">12 GB</option>
+                        <option value="16">16 GB</option>
+                    </select>
+                    <button class="btn btn-primary" type="submit">Filter</button>
+                </div>
+            </form>
+        </div>
+        <div class="col-md-2">
+            <form asp-controller="Logedin" asp-action="SearchByRom" method="get">
+                <label class="form-label">Storage</label>
+                <div class="input-group mb-3">
+                    <select name="rom" class="form-select">
+                        <option value="">All Storage Sizes</option>
+                        <option value="64">64 GB</option>
+                        <option value="128">128 GB</option>
+                        <option value="256">256 GB</option>
+                        <option value="512">512 GB</option>
+                    </select>
+                    <button class="btn btn-primary" type="submit">Filter</button>
+                </div>
+            </form>
+        </div>
+        <div class="col-md-2">
+            <form asp-controller="Logedin" asp-action="SearchByGen" method="get">
+                <label class="form-label">Network</label>
+                <div class="input-group mb-3">
+                    <select name="gen" class="form-select">
+                        <option value="">All Network Types</option>
+                        <option value="4G">4G</option>
+                        <option value="5G">5G</option>
+                    </select>
+                    <button class="btn btn-primary" type="submit">Filter</button>
+                </div>
+            </form>
+        </div>
+        <div class="col-md-2">
+            <form asp-controller="Logedin" asp-action="SearchByComp" method="get">
+                <label class="form-label">Brand</label>
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" name="brand" placeholder="Enter brand name">
+                    <button class="btn btn-primary" type="submit">Filter</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
+}
+
+
+
+
+<div class="row row-cols-1 row-cols-md-3 g-4 ms-1 mt-3 me-1">
+    @foreach (ProductViewModel each in Model)
+    {
+        if (each.Profile == null)
+        {
+            imagePath = "/images/defaults.jpg";
+        }
+        else
+        {
+            imagePath = "/images/" + each.Profile;
+        }
+
+        <div class="col mb-3">
+            <div class="card h-100 shadow">
+                <img src="@imagePath" class="card-img-top h-50" alt="image not found" />
+                <div class="card-body">
+                    <h5 class="card-title">@each.Name</h5>
+                    <hr class="my-2" />
+                    <p class="card-text"><strong>Category:</strong> @each.Category</p>
+                    <p class="card-text"><strong>SubCategory:</strong> @each.SubCategory</p>
+                    <p class="card-text"><strong>Price:</strong> @each.Rate</p>
+                    <a href="@Url.Action("Details", "UserHome", new { Pid = each.Id })" class="btn btn-primary">Details</a>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        if (window.history && window.history.pushState) {
+            window.history.pushState('', null, '');
+            $(window).on('popstate', function () {
+                window.history.pushState('', null, '');
+            });
+        }
+    });
+</script>
+
+

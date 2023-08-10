@@ -1,0 +1,59 @@
+﻿@inject SignInManager<IdentityUser> signInManager
+@model IEnumerable<ProductViewModel>
+
+@{
+    ViewData["Title"] = "UserHome Page";
+    string imagePath = string.Empty;
+}
+
+@if (ViewBag.message == "Product Liked Successfully.")
+{
+    <div class="alert alert-success">@ViewBag.message</div>
+}
+@if(ViewBag.message == "Error: Already Like Product.")
+{
+<div class="alert alert-danger">@ViewBag.message</div>
+}
+
+
+
+
+<div class="row row-cols-1 row-cols-md-3 g-4 ms-1 mt-3 me-1">
+    @foreach (ProductViewModel each in Model)
+    {
+        if (each.Profile == null)
+        {
+            imagePath = "/images/img.jpg";
+        }
+        else
+        {
+            imagePath = "/images/" + each.Profile;
+        }
+
+        <div class="col mb-3">
+            <div class="card h-100 shadow">
+                <img src="@imagePath" class="card-img-top h-50" alt="image not found" />
+                <div class="card-body">
+                    <h5 class="card-title">@each.Name</h5>
+                    <hr class="my-2" />
+                    <p class="card-text"><strong>Category:</strong> @each.Category</p>
+                    <p class="card-text"><strong>SubCategory:</strong> @each.SubCategory</p>
+                    <p class="card-text"><strong>Price:</strong> @each.Rate</p>
+                    <a href="@Url.Action("Details", "UserHome", new { Pid = each.Id })" style="width:75px" class="btn btn-primary">Details</a>
+
+                    @if (signInManager.IsSignedIn(User))
+                    {
+                        <form method="post" action="@Url.Action("AddLike", "Logedin")" class="btn">
+                            <input type="hidden" name="Pid" value="@each.Id" />
+                            <input type="hidden" name="Uid" value="@ViewBag.userId" />
+                            <input type="hidden" name="Pname" value="@each.Name" />
+                            <button class="btn btn-danger" type="submit" style="width:75px">Like</button>
+                        </form>
+                    }
+
+                </div>
+            </div>
+        </div>
+    }
+</div>
+

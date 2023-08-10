@@ -1,0 +1,48 @@
+﻿@model ProductViewModel
+
+@{
+    ViewData["Title"] = "Product Details";
+    string imagePath = string.Empty;
+    if (Model.Profile == null)
+    {
+        imagePath = "/images/img.jpg";
+    }
+    else
+    {
+        imagePath = "/images/" + Model.Profile;
+    }
+}
+<div class="container mt-5 mb-5">
+    <div class="row d-flex justify-content-center">
+        <div class="col-md-10">
+            <div class="card">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="images p-3">
+                            <div class="text-center p-4"> <img id="main-image" src=@imagePath width="400" /> </div>
+                            <div class="thumbnail text-center"> <img onclick="change_image(this)" src=@imagePath  width="80"> <img onclick="change_image(this)" src=@imagePath width="80"> </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="product p-4">
+                            <div class="mt-4 mb-3">
+                            
+                                <p class="card-text"><strong>Category:</strong> @Model.Category</p>
+                                <p class="card-text"><strong>SubCategory:</strong> @Model.SubCategory</p>
+                                <p class="card-text"><strong>Price:</strong> @Model.Rate</p>
+                                <p class="card-text"><strong>Company:</strong> @Model.Brand</p>
+                                <p class="card-text"><strong>Generation:</strong> @Model.Generation</p>
+                                <p class="card-text"><strong>Sim:</strong> @Model.Sims</p>
+                                <p class="card-text"><strong>Version:</strong> @Model.OS</p>
+                                <p class="card-text"><strong>Ram:</strong> @Model.RAM</p>
+                                <p class="card-text"><strong>Rom:</strong> @Model.ROM</p>
+                                <p class="card-text"><strong>Color:</strong> @Model.Color</p>
+                            </div>
+                           
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,119 @@
+﻿@model IEnumerable<ProductViewModel>
+
+
+@{
+    string imagePath = string.Empty;
+}
+<h3 class="text-center mt-3">@ViewBag.message</h3>
+<div class="container mt-3">
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-controller="UserHome" asp-action="SearchByCategory" method="get">
+                <label class="form-label">Category</label>
+                <div class="input-group mb-3">
+                    <select asp-items="@(new SelectList(ViewBag.Category,"Id","Name"))" class="form-select" name="cid">
+                        <option value="">All Categories</option>
+                    </select>
+                    <button class="btn btn-outline-primary" type="submit">Search</button>
+                </div>
+            </form>
+        </div>
+        <div class="col-md-2">
+            <form asp-controller="UserHome" asp-action="SearchByRam" method="get">
+                <label class="form-label">RAM</label>
+                <div class="input-group mb-3">
+                    <select name="ram" class="form-select">
+                        <option value="">All RAM Sizes</option>
+                        <option value="4">4 GB</option>
+                        <option value="8">8 GB</option>
+                        <option value="12">12 GB</option>
+                        <option value="16">16 GB</option>
+                    </select>
+                    <button class="btn btn-outline-primary" type="submit">Search</button>
+                </div>
+            </form>
+        </div>
+        <div class="col-md-2">
+            <form asp-controller="UserHome" asp-action="SearchByRom" method="get">
+                <label class="form-label">Storage</label>
+                <div class="input-group mb-3">
+                    <select name="rom" class="form-select">
+                        <option value="">All Storage Sizes</option>
+                        <option value="64">64 GB</option>
+                        <option value="128">128 GB</option>
+                        <option value="256">256 GB</option>
+                        <option value="512">512 GB</option>
+                    </select>
+                    <button class="btn btn-outline-primary" type="submit">Search</button>
+                </div>
+            </form>
+        </div>
+        <div class="col-md-2">
+            <form asp-controller="UserHome" asp-action="SearchByGen" method="get">
+                <label class="form-label">Network</label>
+                <div class="input-group mb-3">
+                    <select name="gen" class="form-select">
+                        <option value="" >All Network Types</option>
+                        <option value="4G">4G</option>
+                        <option value="5G">5G</option>
+                    </select>
+                    <button class="btn btn-outline-primary" type="submit">Search</button>
+                </div>
+            </form>
+        </div>
+        <div class="col-md-2">
+            <form asp-controller="UserHome" asp-action="SearchByComp" method="get">
+                <label class="form-label">Brand</label>
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" name="brand" placeholder="Enter brand name" >
+                    <button class="btn btn-outline-primary" type="submit">Search</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+@if (Model != null)
+{
+    @if (ViewBag.ErrorMessage != null)
+    {
+        <h5>@ViewBag.ErrorMessage </h5>
+    }
+    else
+    {
+        <div class="row">
+            @foreach (var product in Model)
+            {
+                if (product.Profile == null)
+                {
+                    imagePath = "/images/img.jpg";
+                }
+                else
+                {
+                    imagePath = "/images/" + product.Profile;
+                }
+
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100">
+                        <img src="@imagePath" class="card-img-top h-50" alt="image not found" />
+                        <div class="card-body">
+                            <h5 class="card-title">@product.Name</h5>
+                            <p class="card-text"><strong>Category:</strong> @product.Category</p>
+                            <p class="card-text"><strong>SubCategory:</strong> @product.SubCategory</p>
+                            <p class="card-text"><strong>Price:</strong> @product.Rate</p>
+
+                            <p class="card-text"><strong>@product.Rate</strong></p>
+                            <a href="@Url.Action("Details", "UserHome", new { Pid = product.Id })" class="btn btn-primary">Details</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+
+
+}
+            else
+            {
+                <h5 class="text-center mt-2">@ViewBag.ErrorMessage </h5>
+            }
+

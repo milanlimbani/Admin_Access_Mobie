@@ -1,0 +1,40 @@
+﻿@{
+    Layout = ViewBag.Layout;
+}
+
+
+@model IEnumerable<ProductViewModel>
+
+
+@{
+    string imagePath = string.Empty;
+}
+
+<div class="row">
+    @foreach (var product in Model)
+    {
+        if (product.Profile == null)
+        {
+            imagePath = "/images/defaults.jpg";
+        }
+        else
+        {
+            imagePath = "/images/" + product.Profile;
+        }
+
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <img src="@imagePath" class="card-img-top h-50" alt="image not found" />
+                <div class="card-body">
+                    <h5 class="card-title">@product.Name</h5>
+                    <p class="card-text"><strong>Category:</strong> @product.Category</p>
+                    <p class="card-text"><strong>SubCategory:</strong> @product.SubCategory</p>
+                    <p class="card-text"><strong>Price:</strong> @product.Rate</p>
+
+                    <p class="card-text"><strong>@product.Rate</strong></p>
+                    <a href="@Url.Action("Details", "UserHome", new { Pid = product.Id })" class="btn btn-primary">Details</a>
+                </div>
+            </div>
+        </div>
+    }
+</div>

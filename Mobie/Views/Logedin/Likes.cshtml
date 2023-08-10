@@ -1,0 +1,47 @@
+﻿@{ 
+    int no = 1;}
+
+
+
+@model IEnumerable<Like>
+
+<h2>User Likes</h2>
+<div class="text-success text-center">@ViewBag.message</div>
+
+@if (Model.Count() == 0)
+{
+    <p>No likes found .</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Sr. No.</th>
+                <th>PID</th>
+                <th>Product Name</th>
+                <th colspan = "2">Action</th>
+
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var likes in Model)
+            {
+            <tr>
+                <td>@no</td>
+                <td>@likes.ProId</td>
+                <td>@likes.ProductName</td>
+                <td> <a href="@Url.Action("Details", "UserHome", new { Pid = likes.ProId })" class="btn btn-primary">Details</a></td>
+                <td> <a href="@Url.Action("RemoveLikes", "Logedin", new { Lid = likes.Id })" class="btn btn-danger">Remove</a></td>
+                @{
+                    no = no + 1;
+                }
+            </tr>
+               
+                 
+                
+            }
+        </tbody>
+    </table>
+}

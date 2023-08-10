@@ -1,0 +1,62 @@
+﻿@model IEnumerable<ProductViewModel>
+
+
+
+@{ ViewData["Title"] = "Home Page";
+    string imagePath = string.Empty; }
+
+
+
+@*<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    </div>*@
+
+
+
+<nav class="navbar navbar-light mt-1">
+    <a class="navbar-brand btn btn-outline-info" asp-action="AddProduct" asp-controller="Home">
+        Add
+    </a>
+</nav>
+<div class="text-success">@ViewData["SuccessMessage"]</div>
+<div class="container mt-3">
+    <div class="row row-cols-1 row-cols-md-3 g-4 ms-1 mt-3 me-1">
+        @foreach (ProductViewModel each in Model)
+        {
+            if (each.Profile == null)
+            {
+                imagePath = "/images/img.jpg";
+            }
+            else
+            {
+                imagePath = "/images/" + each.Profile;
+            }
+
+            <div class="col mb-3">
+                <div class="card h-100 shadow">
+                    <img src="@imagePath" class="card-img-top h-50" alt="image not found" />
+                    <div class="card-body">
+                        <h5 class="card-title">@each.Name</h5>
+                        <hr class="my-2" />
+                        <p class="card-text"><strong>Category:</strong> @each.Category</p>
+                        <p class="card-text"><strong>SubCategory:</strong> @each.SubCategory</p>
+                        <p class="card-text"><strong>Price:</strong> @each.Rate</p>
+                        <p class="card-text"><strong>Company:</strong> @each.Brand</p>
+                        <p class="card-text"><strong>Generation:</strong> @each.Generation</p>
+                        <p class="card-text"><strong>Sim:</strong> @each.Sims</p>
+                        <p class="card-text"><strong>Version:</strong> @each.OS</p>
+                        <p class="card-text"><strong>Ram:</strong> @each.RAM</p>
+                        <p class="card-text"><strong>Rom:</strong> @each.ROM</p>
+                        <p class="card-text"><strong>Color:</strong> @each.Color</p>
+                    </div>
+                    <div class="card-footer bg-transparent border-0">
+                        <form asp-action="Delete" asp-controller="Home" asp-route-Id="@each.Id" method="post">
+                            <a asp-action="Edit" asp-controller="Home" class="btn btn-primary me-2" asp-route-Id="@each.Id" style="width:75px">Edit</a>
+                            <button type="submit" class="btn btn-danger" style="width:75px">Delete</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
